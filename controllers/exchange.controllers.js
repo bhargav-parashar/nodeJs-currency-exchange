@@ -1,6 +1,5 @@
 const axios = require('axios');
 const {convertSchema} = require("../validations/exchange.validtions.js");
-const password = process.env.ROUTE_PASSWORD;
 
 const getCurrencies = (req,res)=>{
    
@@ -20,11 +19,7 @@ const getCurrencies = (req,res)=>{
             );
         }
     }
-    if(req.headers.authorization !== password){
-        res.sendStatus(401);
-    }else{
-        callApi()
-    }
+    callApi()
 };
 
 const convertCurrencies = (req,res)=>{
@@ -58,9 +53,7 @@ const convertCurrencies = (req,res)=>{
         
     }
 
-    if(req.headers.authorization !== password){
-        res.sendStatus(401);
-    }else if(error){
+    if(error){
         res.status(400).send({message : "Incomplete or Incorrect data passed"});
     }else{
         callApi()
