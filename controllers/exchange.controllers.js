@@ -1,5 +1,4 @@
 const axios = require('axios');
-const {convertSchema} = require("../validations/exchange.validtions.js");
 
 const getCurrencies = (req,res)=>{
    
@@ -23,11 +22,7 @@ const getCurrencies = (req,res)=>{
 };
 
 const convertCurrencies = (req,res)=>{
-    const value = req.query.value;
-    const currency = req.query.currency;
-    const to_currency = req.query.to_currency;
-    const {error} = convertSchema.validate({value,currency,to_currency});
-
+    const {value, currency, to_currency} = req.query;    
     async function callApi(){
         try{
                 const url = `https://open.er-api.com/v6/latest/${currency}`;
@@ -53,11 +48,7 @@ const convertCurrencies = (req,res)=>{
         
     }
 
-    if(error){
-        res.status(400).send({message : "Incomplete or Incorrect data passed"});
-    }else{
-        callApi()
-    }; 
+    callApi()
 };
 
 module.exports = {getCurrencies,convertCurrencies};
